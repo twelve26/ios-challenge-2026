@@ -45,6 +45,10 @@
 "my_cat.detail.country" = "Country";
 "my_cat.detail.body_condition_score" = "Body condition score";
 "my_cat.detail.not_available" = "Not available";
+"my_cat.detail.delete" = "Delete Cat";
+"my_cat.detail.cancel" = "Cancel";
+"my_cat.detail.delete_confirmation_title" = "Delete this cat?";
+"my_cat.detail.delete_confirmation_message" = "This cat will be permanently removed from this device.";
 
 /* Add cat */
 "cat_upload.navigation_title" = "Add Cat";
@@ -73,9 +77,10 @@
 "cat_upload.create" = "Create";
 "cat_upload.done" = "Done";
 "cat_upload.required_fields_title" = "Incomplete information";
-"cat_upload.required_fields_message" = "One or more required fields are empty.";
+"cat_upload.required_fields_message" = "One or more required fields are empty or invalid.";
 "cat_upload.required_field" = "This field is required.";
 "cat_upload.select_breed" = "Select a breed from the suggestions.";
+"cat_upload.invalid_name" = "Name must contain at least 3 characters.";
 "cat_upload.invalid_age" = "Age must be a positive number.";
 "cat_upload.invalid_age_months" = "Additional months must be between 0 and 11.";
 "cat_upload.invalid_body_condition" = "Body condition score must be between 1 and 9.";

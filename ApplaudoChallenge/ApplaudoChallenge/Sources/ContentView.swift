@@ -19,8 +19,15 @@ public struct ContentView: View {
                 Label(LocalizableKey.Tab.catBreeds, systemImage: "cat")
             }
             .tag(AppTab.breeds)
+
+            // MARK: - Tab 2: Add Cat
+            CatUploadView()
+            .tabItem {
+                Label(LocalizableKey.Tab.addCat, systemImage: "plus.circle")
+            }
+            .tag(AppTab.addCat)
             
-            // MARK: - Tab 2: My Cat
+            // MARK: - Tab 3: My Cat
             MyCatsView {
                 selectedTab = .addCat
             }
@@ -28,13 +35,6 @@ public struct ContentView: View {
                 Label(LocalizableKey.Tab.myCats, systemImage: "heart")
             }
             .tag(AppTab.myCats)
-
-            // MARK: - Tab 3: Add Cat
-            CatUploadView()
-            .tabItem {
-                Label(LocalizableKey.Tab.addCat, systemImage: "plus.circle")
-            }
-            .tag(AppTab.addCat)
         }
         .tint(AppTheme.Colors.primary)
     }

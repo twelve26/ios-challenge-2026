@@ -52,6 +52,10 @@ enum LocalizableKey {
         static let country = value("my_cat.detail.country")
         static let bodyConditionScore = value("my_cat.detail.body_condition_score")
         static let notAvailable = value("my_cat.detail.not_available")
+        static let delete = value("my_cat.detail.delete")
+        static let cancel = value("my_cat.detail.cancel")
+        static let deleteConfirmationTitle = value("my_cat.detail.delete_confirmation_title")
+        static let deleteConfirmationMessage = value("my_cat.detail.delete_confirmation_message")
     }
 
     enum CatUpload {
@@ -84,6 +88,7 @@ enum LocalizableKey {
         static let requiredFieldsMessage = value("cat_upload.required_fields_message")
         static let requiredField = value("cat_upload.required_field")
         static let selectBreed = value("cat_upload.select_breed")
+        static let invalidName = value("cat_upload.invalid_name")
         static let invalidAge = value("cat_upload.invalid_age")
         static let invalidAgeMonths = value("cat_upload.invalid_age_months")
         static let invalidBodyCondition = value("cat_upload.invalid_body_condition")

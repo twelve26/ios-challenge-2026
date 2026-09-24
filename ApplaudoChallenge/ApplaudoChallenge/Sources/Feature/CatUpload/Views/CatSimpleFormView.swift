@@ -29,7 +29,7 @@ struct CatSimpleFormView: View {
                 label: LocalizableKey.CatUpload.catName,
                 placeholder: LocalizableKey.CatUpload.catNamePlaceholder,
                 text: basicBinding(for: \.name),
-                errorMessage: requiredError(for: viewModel.formData.basicInformation.name),
+                errorMessage: nameError,
                 icon: "cat"
             )
 
@@ -137,6 +137,17 @@ struct CatSimpleFormView: View {
         return viewModel.formData.basicInformation.isAgeValid
             ? nil
             : LocalizableKey.CatUpload.invalidAge
+    }
+
+    private var nameError: String? {
+        guard viewModel.didAttemptStepOne else { return nil }
+        let name = viewModel.formData.basicInformation.trimmedName
+        if name.isEmpty {
+            return LocalizableKey.CatUpload.requiredField
+        }
+        return viewModel.formData.basicInformation.isNameValid
+            ? nil
+            : LocalizableKey.CatUpload.invalidName
     }
 
     private func requiredError(for value: String) -> String? {

@@ -9,7 +9,7 @@ struct CatBasicInformation: Equatable {
     var shortDescription = ""
 
     var isValid: Bool {
-        !trimmedName.isEmpty
+        isNameValid
             && breed != nil
             && parsedAge.map { $0 > 0 } == true
             && !trimmedDescription.isEmpty
@@ -24,6 +24,10 @@ struct CatBasicInformation: Equatable {
 
     var isAgeValid: Bool {
         parsedAge.map { $0 > 0 } == true
+    }
+
+    var isNameValid: Bool {
+        trimmedName.count >= 3
     }
 
     var parsedAge: Int? {

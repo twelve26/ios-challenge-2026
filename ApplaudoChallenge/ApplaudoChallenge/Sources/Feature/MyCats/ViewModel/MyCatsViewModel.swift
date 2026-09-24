@@ -42,4 +42,15 @@ final class MyCatsViewModel: ObservableObject {
             fetchCats()
         }
     }
+
+    func deleteCat(id: UUID) {
+        do {
+            try storageService.deleteCat(id: id)
+            cats.removeAll { $0.id == id }
+            errorMessage = nil
+        } catch {
+            errorMessage = error.localizedDescription
+            fetchCats()
+        }
+    }
 }
