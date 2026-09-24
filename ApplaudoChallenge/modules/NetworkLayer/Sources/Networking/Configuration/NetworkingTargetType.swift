@@ -34,7 +34,6 @@ extension NetworkingTargetType {
     // Common headers sent with every request. Add or override additional headers in your target as required.
     var requestHeaders: [String: String]? {
         [
-            "Content-Type": "application/json",
             "x-api-key": "REDACTED_API_KEY"
         ]
     }

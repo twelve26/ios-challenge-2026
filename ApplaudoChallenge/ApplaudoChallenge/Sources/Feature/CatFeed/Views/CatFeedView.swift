@@ -6,15 +6,26 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CatFeedView: View {
+    let viewModel = CatFeedViewModel()
+    
     var body: some View {
         NavigationStack {
-            Text("Cat List")
+            CatFeedListView(viewModel: viewModel)
                 .font(AppTheme.Fonts.title)
                 .foregroundColor(AppTheme.Colors.textPrimary)
                 .navigationTitle("Cats")
         }
+    }
+}
+
+struct  CatFeedListView: View {
+    let viewModel: CatFeedViewModel
+    
+    var body: some View {
+        Text("Cat List")
     }
 }
 

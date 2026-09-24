@@ -1,6 +1,26 @@
-import Foundation
 import Moya
 
-// MARK: - NetworkLayer Module
-// Public-facing entry point for the NetworkLayer package.
-// Import this module in any feature target that needs to perform API requests.
+/// Public composition root for every API service exposed by this module.
+public final class NetworkLayer {
+    public let breedService: BreedServiceType
+    public let breedDetailService: BreedDetailServiceType
+    public let petService: PetServiceType
+    public let catUploadService: CatUploadServiceType
+
+    /// Creates a network layer configured for live API requests.
+    public convenience init() {
+        self.init(
+            requester: NetworkingRequester(
+                provider: MoyaProvider<MultiTarget>.networkingProvider()
+            )
+        )
+    }
+
+    /// Internal dependency-injection point used by the module's tests.
+    init(requester: NetworkingRequesterType) {
+        breedService = BreedService(requester: requester)
+        breedDetailService = BreedDetailService(requester: requester)
+        petService = PetService(requester: requester)
+        catUploadService = CatUploadService(requester: requester)
+    }
+}
