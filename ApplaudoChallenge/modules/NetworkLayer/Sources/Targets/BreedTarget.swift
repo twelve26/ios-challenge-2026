@@ -28,6 +28,7 @@ extension BreedTarget: NetworkingTargetType {
                 parameters: [
                     "page": pagination.page,
                     "limit": pagination.limit,
+                    "order": "ASC",
                 ],
                 encoding: URLEncoding.queryString
             )

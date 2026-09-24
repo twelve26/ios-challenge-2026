@@ -8,6 +8,7 @@ let project = Project(
             destinations: .iOS,
             product: .app,
             bundleId: "dev.tuist.ApplaudoChallenge",
+            deploymentTargets: .iOS("26.0"),
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchScreen": [
@@ -29,6 +30,7 @@ let project = Project(
             destinations: .iOS,
             product: .unitTests,
             bundleId: "dev.tuist.ApplaudoChallengeTests",
+            deploymentTargets: .iOS("26.0"),
             infoPlist: .default,
             buildableFolders: [
                 "ApplaudoChallenge/Tests"
@@ -40,6 +42,7 @@ let project = Project(
             destinations: .iOS,
             product: .staticFramework,
             bundleId: "dev.tuist.NetworkLayer",
+            deploymentTargets: .iOS("26.0"),
             infoPlist: .default,
             buildableFolders: [
                 "modules/NetworkLayer/Sources",
@@ -53,6 +56,7 @@ let project = Project(
             destinations: .iOS,
             product: .unitTests,
             bundleId: "dev.tuist.NetworkLayerTests",
+            deploymentTargets: .iOS("26.0"),
             infoPlist: .default,
             buildableFolders: [
                 "modules/NetworkLayer/NetworkLayerTest",

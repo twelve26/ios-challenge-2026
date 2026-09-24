@@ -43,9 +43,9 @@ struct EmptyStateView: View {
 #Preview("Empty State") {
     EmptyStateView(
         systemImage: "cat",
-        title: "No Cats Yet",
-        message: "Start by adding your first cat breed to the collection.",
-        buttonTitle: "Add a Cat",
+        title: LocalizableKey.Preview.noCatsTitle,
+        message: LocalizableKey.Preview.noCatsMessage,
+        buttonTitle: LocalizableKey.Preview.addCat,
         action: {}
     )
 }

@@ -1,0 +1,63 @@
+/* Tab bar */
+"tab.cat_breeds" = "Cat Breeds";
+"tab.my_cats" = "My Cats";
+"tab.add_cat" = "Add Cat";
+
+/* Breed list */
+"breed.list.navigation_title" = "Cat Breeds";
+"breed.list.loading" = "Loading breeds...";
+"breed.list.loading_more" = "Loading more breeds...";
+"breed.list.error_title" = "Unable to Load Breeds";
+"breed.list.empty_title" = "No Breeds Found";
+"breed.list.empty_message" = "There are no cat breeds available right now.";
+"breed.list.retry" = "Try Again";
+"breed.list.server_error" = "The server returned an error (%ld).";
+"breed.list.decoding_error" = "The breed data could not be read.";
+"breed.list.connection_error" = "Unable to connect. Please try again.";
+
+/* Breed detail */
+"breed.detail.identifier" = "Identifier";
+"breed.detail.name" = "Name";
+"breed.detail.description" = "Description";
+"breed.detail.image_url" = "Image URL";
+"breed.detail.origin" = "Origin";
+"breed.detail.temperament" = "Temperament";
+"breed.detail.life_span" = "Life span";
+"breed.detail.not_available" = "Not available";
+"breed.detail.image_accessibility_label" = "Cat breed image";
+
+/* My cats */
+"my_cats.navigation_title" = "My Cats";
+"my_cats.placeholder" = "Your saved cats will appear here.";
+
+/* Add cat */
+"cat_upload.navigation_title" = "Add Cat";
+"cat_upload.title" = "Add New Cat";
+"cat_upload.basic_information" = "Basic information";
+"cat_upload.details" = "Additional details";
+"cat_upload.review" = "Review your cat";
+
+/* Reusable component previews */
+"preview.primary_button" = "Primary Button";
+"preview.secondary_button" = "Secondary Button";
+"preview.destructive_button" = "Destructive Button";
+"preview.disabled_button" = "Disabled Button";
+"preview.loading" = "Loading...";
+"preview.persian_description" = "Calm and affectionate breed";
+"preview.siamese_description" = "Vocal and social breed";
+"preview.no_arrow" = "No Arrow";
+"preview.no_arrow_description" = "Card without chevron";
+"preview.breed_name" = "Breed Name";
+"preview.enter_breed_name" = "Enter breed name";
+"preview.email" = "Email";
+"preview.enter_email" = "Enter email";
+"preview.invalid_email" = "Please enter a valid email";
+"preview.no_cats_title" = "No Cats Yet";
+"preview.no_cats_message" = "Start by adding your first cat breed to the collection.";
+"preview.add_cat" = "Add a Cat";
+"preview.breed_information" = "Breed Information";
+"preview.basic_details" = "Fill in the basic details";
+"preview.appearance" = "Appearance";
+"preview.step.basic_info" = "Basic Info";
+"preview.step.details" = "Details";
+"preview.step.review" = "Review";

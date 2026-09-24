@@ -34,13 +34,13 @@ struct SectionHeader: View {
 #Preview("Section Header") {
     VStack(spacing: AppTheme.Spacing.lg) {
         SectionHeader(
-            title: "Breed Information",
-            subtitle: "Fill in the basic details",
+            title: LocalizableKey.Preview.breedInformation,
+            subtitle: LocalizableKey.Preview.basicDetails,
             systemImage: "info.circle"
         )
 
         SectionHeader(
-            title: "Appearance",
+            title: LocalizableKey.Preview.appearance,
             systemImage: "paintpalette"
         )
     }

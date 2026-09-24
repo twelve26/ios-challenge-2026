@@ -6,15 +6,21 @@ public struct ContentView: View {
     public var body: some View {
         TabView {
             // MARK: - Tab 1: Cat List
-            CatFeedView()
+            CatBreedView()
             .tabItem {
-                Label("Cats", systemImage: "cat")
+                Label(LocalizableKey.Tab.catBreeds, systemImage: "cat")
+            }
+            
+            // MARK: - Tab 2: My Cat
+            MyCatsView()
+            .tabItem {
+                Label(LocalizableKey.Tab.myCats, systemImage: "heart")
             }
 
             // MARK: - Tab 2: Add Cat
-            CatFeedView()
+            MyCatsView()
             .tabItem {
-                Label("Add Cat", systemImage: "plus.circle")
+                Label(LocalizableKey.Tab.addCat, systemImage: "plus.circle")
             }
         }
         .tint(AppTheme.Colors.primary)

@@ -1,5 +1,5 @@
 //
-//  CatUploadView.swift
+//  MyCatsView.swift
 //  ApplaudoChallenge
 //
 //  Created by Jhonger josias Delgado Acosta on 24/09/26.
@@ -7,18 +7,17 @@
 
 import SwiftUI
 
-struct CatUploadView: View {
-    
+struct MyCatsView: View {
     var body: some View {
-        NavigationStack {
-            Text(LocalizableKey.CatUpload.title)
+        NavigationView {
+            Text(LocalizableKey.MyCats.placeholder)
                 .font(AppTheme.Fonts.title)
                 .foregroundColor(AppTheme.Colors.textPrimary)
-                .navigationTitle(LocalizableKey.CatUpload.navigationTitle)
+                .navigationTitle(LocalizableKey.MyCats.navigationTitle)
         }
     }
 }
 
 #Preview {
-    CatUploadView()
+    MyCatsView()
 }
