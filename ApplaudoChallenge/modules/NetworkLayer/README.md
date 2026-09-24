@@ -31,9 +31,17 @@ This module connects to [The Cat API](https://thecatapi.com). You need a free AP
 1. Generate your key at:  
    **https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=FJkYOq9tW**
 
-2. In Xcode, open **Product > Scheme > Edit Scheme...**, select **Run > Arguments**, and add an environment variable named `CAT_API_KEY` with your key as its value.
+2. Create your local secrets file from the tracked template:
 
-Do not commit API keys to the repository. `NetworkingTargetType` reads the key from the process environment at runtime and omits the authentication header when the variable is unavailable.
+```sh
+cp Config/Secrets.xcconfig.example Config/Secrets.xcconfig
+```
+
+3. Replace `YOUR_CAT_API_KEY` inside `Config/Secrets.xcconfig` with your key and regenerate the project with `tuist generate`.
+
+Alternatively, set `CAT_API_KEY` under **Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables**. A Scheme value takes precedence over the `.xcconfig` value.
+
+Do not commit API keys to the repository. `Config/Secrets.xcconfig` is ignored by Git, while `Config/Secrets.xcconfig.example` documents the required setting safely. `NetworkingTargetType` omits the authentication header when neither source provides a valid key.
 
 > Requests made without a valid key will be rate-limited and may fail.
 
