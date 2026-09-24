@@ -33,9 +33,12 @@ extension NetworkingTargetType {
     // MARK: - Request Headers
     // Common headers sent with every request. Add or override additional headers in your target as required.
     var requestHeaders: [String: String]? {
-        [
-            "x-api-key": "live_wKkLkldESrAM2Jfjyzz7bh9Ao8uBoraOyV1vuFknsAS8FnluuDx7hK8pWH4dryde"
-        ]
+        guard let apiKey = ProcessInfo.processInfo.environment["CAT_API_KEY"],
+              !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return nil
+        }
+
+        return ["x-api-key": apiKey]
     }
 
     // MARK: - Request Sample Data

@@ -31,11 +31,9 @@ This module connects to [The Cat API](https://thecatapi.com). You need a free AP
 1. Generate your key at:  
    **https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=FJkYOq9tW**
 
-2. Once you have the key, replace the placeholder in `NetworkingTargetType.swift`:
+2. In Xcode, open **Product > Scheme > Edit Scheme...**, select **Run > Arguments**, and add an environment variable named `CAT_API_KEY` with your key as its value.
 
-```swift
-"x-api-key": "YOUR-API-KEY"
-```
+Do not commit API keys to the repository. `NetworkingTargetType` reads the key from the process environment at runtime and omits the authentication header when the variable is unavailable.
 
 > Requests made without a valid key will be rate-limited and may fail.
 
