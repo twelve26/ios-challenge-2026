@@ -6,5 +6,5 @@
 //
 
 struct CatUploadFormViewModel {
-    
+    var formData = CatFormData()
 }
