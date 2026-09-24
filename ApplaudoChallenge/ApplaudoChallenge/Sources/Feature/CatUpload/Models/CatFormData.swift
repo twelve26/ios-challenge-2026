@@ -15,6 +15,17 @@ struct CatBasicInformation: Equatable {
             && !trimmedDescription.isEmpty
     }
 
+    var hasEmptyRequiredFields: Bool {
+        trimmedName.isEmpty
+            || breed == nil
+            || age.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            || trimmedDescription.isEmpty
+    }
+
+    var isAgeValid: Bool {
+        parsedAge.map { $0 > 0 } == true
+    }
+
     var parsedAge: Int? {
         Int(age.trimmingCharacters(in: .whitespacesAndNewlines))
     }
@@ -46,6 +57,14 @@ struct CatAdditionalInformation: Equatable {
 
     var parsedBodyConditionScore: Int? {
         Int(bodyConditionScore.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+
+    var isAgeMonthsValid: Bool {
+        isOptionalIntegerValid(ageMonths, validRange: 0...11)
+    }
+
+    var isBodyConditionScoreValid: Bool {
+        isOptionalIntegerValid(bodyConditionScore, validRange: 1...9)
     }
 
     var trimmedMicrochipID: String? {
