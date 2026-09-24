@@ -110,19 +110,19 @@ struct StepperIndicator: View {
         StepperIndicator(
             currentStep: 1,
             totalSteps: 3,
-            stepTitles: ["Basic Info", "Details", "Review"]
+            stepTitles: LocalizableKey.Preview.stepTitles
         )
 
         StepperIndicator(
             currentStep: 2,
             totalSteps: 3,
-            stepTitles: ["Basic Info", "Details", "Review"]
+            stepTitles: LocalizableKey.Preview.stepTitles
         )
 
         StepperIndicator(
             currentStep: 0,
             totalSteps: 3,
-            stepTitles: ["Basic Info", "Details", "Review"]
+            stepTitles: LocalizableKey.Preview.stepTitles
         )
     }
     .padding(AppTheme.Spacing.lg)

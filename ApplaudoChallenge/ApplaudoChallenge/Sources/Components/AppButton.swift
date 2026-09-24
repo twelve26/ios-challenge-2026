@@ -83,11 +83,11 @@ struct AppButton: View {
 
 #Preview("App Buttons") {
     VStack(spacing: AppTheme.Spacing.md) {
-        AppButton(title: "Primary Button", style: .primary) {}
-        AppButton(title: "Secondary Button", style: .secondary) {}
-        AppButton(title: "Destructive Button", style: .destructive) {}
-        AppButton(title: "Disabled Button", style: .primary, isEnabled: false) {}
-        AppButton(title: "Loading...", style: .primary, isLoading: true) {}
+        AppButton(title: LocalizableKey.Preview.primaryButton, style: .primary) {}
+        AppButton(title: LocalizableKey.Preview.secondaryButton, style: .secondary) {}
+        AppButton(title: LocalizableKey.Preview.destructiveButton, style: .destructive) {}
+        AppButton(title: LocalizableKey.Preview.disabledButton, style: .primary, isEnabled: false) {}
+        AppButton(title: LocalizableKey.Preview.loading, style: .primary, isLoading: true) {}
     }
     .padding(AppTheme.Spacing.lg)
 }

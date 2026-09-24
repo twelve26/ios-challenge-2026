@@ -46,6 +46,7 @@ final class NetworkLayerTests: XCTestCase {
         XCTAssertNil(parameters["breed_groups"])
         XCTAssertEqual(parameters["page"] as? Int, 2)
         XCTAssertEqual(parameters["limit"] as? Int, 10)
+        XCTAssertEqual(parameters["order"] as? String, "ASC")
     }
 
     func testBreedDetailServiceRequestsBreedByID() {

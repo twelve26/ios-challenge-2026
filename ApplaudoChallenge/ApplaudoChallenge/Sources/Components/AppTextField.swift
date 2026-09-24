@@ -58,17 +58,17 @@ struct AppTextField: View {
 #Preview("App Text Fields") {
     VStack(spacing: AppTheme.Spacing.lg) {
         AppTextField(
-            label: "Breed Name",
-            placeholder: "Enter breed name",
+            label: LocalizableKey.Preview.breedName,
+            placeholder: LocalizableKey.Preview.enterBreedName,
             text: .constant("Persian"),
             icon: "cat"
         )
 
         AppTextField(
-            label: "Email",
-            placeholder: "Enter email",
+            label: LocalizableKey.Preview.email,
+            placeholder: LocalizableKey.Preview.enterEmail,
             text: .constant(""),
-            errorMessage: "Please enter a valid email",
+            errorMessage: LocalizableKey.Preview.invalidEmail,
             keyboardType: .emailAddress,
             icon: "envelope"
         )
