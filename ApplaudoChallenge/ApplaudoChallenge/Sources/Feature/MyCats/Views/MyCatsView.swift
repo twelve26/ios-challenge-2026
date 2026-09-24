@@ -57,7 +57,7 @@ struct MyCatsView: View {
                 }
             }
             .navigationTitle(LocalizableKey.MyCats.navigationTitle)
-            .task {
+            .onAppear {
                 viewModel.fetchCats()
             }
         }
