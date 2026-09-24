@@ -46,7 +46,7 @@ struct CatBreedListView: View {
             } else {
                 ScrollView {
                     LazyVStack(spacing: AppTheme.Spacing.md) {
-                        ForEach(viewModel.breeds, id: \.id) { breed in
+                        ForEach(Array(viewModel.breeds.enumerated()), id: \.element.id) { index, breed in
                             NavigationLink(destination: CatBreedDetailsView(catBreedInfo: breed)) {
                                 AppCard(
                                     title: breed.name,
@@ -57,28 +57,32 @@ struct CatBreedListView: View {
                                 )
                             }
                             .onAppear {
-                                viewModel.loadMoreIfNeeded(currentBreed: breed)
+                                viewModel.loadMoreIfNeeded(currentIndex: index)
                             }
                         }
 
-                        if viewModel.isLoadingNextPage {
-                            ProgressView(LocalizableKey.BreedList.loadingMore)
-                                .padding(.vertical, AppTheme.Spacing.md)
-                        } else if let paginationError = viewModel.paginationErrorMessage {
-                            VStack(spacing: AppTheme.Spacing.sm) {
-                                Text(paginationError)
-                                    .font(AppTheme.Fonts.caption)
-                                    .foregroundColor(AppTheme.Colors.error)
-                                    .multilineTextAlignment(.center)
+                        Group {
+                            if viewModel.isLoadingNextPage {
+                                ProgressView(LocalizableKey.BreedList.loadingMore)
+                            } else if let paginationError = viewModel.paginationErrorMessage {
+                                VStack(spacing: AppTheme.Spacing.sm) {
+                                    Text(paginationError)
+                                        .font(AppTheme.Fonts.caption)
+                                        .foregroundColor(AppTheme.Colors.error)
+                                        .multilineTextAlignment(.center)
 
-                                Button(LocalizableKey.BreedList.retry) {
-                                    viewModel.retryLoadingNextPage()
+                                    Button(LocalizableKey.BreedList.retry) {
+                                        viewModel.retryLoadingNextPage()
+                                    }
+                                    .font(AppTheme.Fonts.headline)
+                                    .foregroundColor(AppTheme.Colors.primary)
                                 }
-                                .font(AppTheme.Fonts.headline)
-                                .foregroundColor(AppTheme.Colors.primary)
+                            } else {
+                                Color.clear
                             }
-                            .padding(.vertical, AppTheme.Spacing.md)
                         }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: AppTheme.Spacing.xl * 2)
                     }
                     .padding(AppTheme.Spacing.md)
                 }

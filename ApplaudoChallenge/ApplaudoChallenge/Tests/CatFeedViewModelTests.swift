@@ -45,14 +45,14 @@ final class CatFeedViewModelTests: XCTestCase {
         viewModel.fetchBreeds()
         wait(for: [initialPageLoaded], timeout: 1)
 
-        viewModel.loadMoreIfNeeded(currentBreed: firstPage[1])
+        viewModel.loadMoreIfNeeded(currentIndex: 1)
         wait(for: [nextPageLoaded], timeout: 1)
 
         XCTAssertEqual(viewModel.breeds, firstPage + secondPage)
         XCTAssertEqual(service.requestedPages, [0, 1])
         XCTAssertFalse(viewModel.canLoadMore)
 
-        viewModel.loadMoreIfNeeded(currentBreed: secondPage[0])
+        viewModel.loadMoreIfNeeded(currentIndex: 2)
         XCTAssertEqual(service.requestedPages, [0, 1])
     }
 }

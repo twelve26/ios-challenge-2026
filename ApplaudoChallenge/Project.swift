@@ -11,6 +11,7 @@ let project = Project(
             deploymentTargets: .iOS("26.0"),
             infoPlist: .extendingDefault(
                 with: [
+                    "CAT_API_KEY": "$(CAT_API_KEY)",
                     "UILaunchScreen": [
                         "UIColorName": "",
                         "UIImageName": "",
@@ -23,7 +24,13 @@ let project = Project(
             ],
             dependencies: [
                 .target(name: "NetworkLayer"),
-            ]
+            ],
+            settings: .settings(
+                configurations: [
+                    .debug(name: "Debug", xcconfig: "Config/Base.xcconfig"),
+                    .release(name: "Release", xcconfig: "Config/Base.xcconfig"),
+                ]
+            )
         ),
         .target(
             name: "ApplaudoChallengeTests",

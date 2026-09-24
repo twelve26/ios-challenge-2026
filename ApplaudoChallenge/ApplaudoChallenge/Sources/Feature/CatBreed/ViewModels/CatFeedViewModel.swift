@@ -10,8 +10,8 @@ import Foundation
 import NetworkLayer
 
 private enum Constants {
-    static var prefetchValue: Int = 15
-    static var prefetchThreshold: Int = 5
+    static let prefetchValue = 15
+    static let prefetchThreshold = 5
 }
 
 final class CatFeedViewModel: ObservableObject {
@@ -51,11 +51,11 @@ final class CatFeedViewModel: ObservableObject {
         requestPage(0, isInitialPage: true)
     }
 
-    func loadMoreIfNeeded(currentBreed: CatBreed) {
+    func loadMoreIfNeeded(currentIndex: Int) {
         guard canLoadMore,
               !isLoading,
               !isLoadingNextPage,
-              let currentIndex = breeds.firstIndex(where: { $0.id == currentBreed.id })
+              breeds.indices.contains(currentIndex)
         else {
             return
         }

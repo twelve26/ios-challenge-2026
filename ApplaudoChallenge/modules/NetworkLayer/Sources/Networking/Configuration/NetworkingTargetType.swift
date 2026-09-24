@@ -33,8 +33,13 @@ extension NetworkingTargetType {
     // MARK: - Request Headers
     // Common headers sent with every request. Add or override additional headers in your target as required.
     var requestHeaders: [String: String]? {
-        guard let apiKey = ProcessInfo.processInfo.environment["CAT_API_KEY"],
-              !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        let environmentAPIKey = ProcessInfo.processInfo.environment["CAT_API_KEY"]
+        let configurationAPIKey = Bundle.main.object(forInfoDictionaryKey: "CAT_API_KEY") as? String
+
+        guard let apiKey = [environmentAPIKey, configurationAPIKey]
+            .compactMap({ $0?.trimmingCharacters(in: .whitespacesAndNewlines) })
+            .first(where: { !$0.isEmpty && $0 != "$(CAT_API_KEY)" && $0 != "YOUR_CAT_API_KEY" })
+        else {
             return nil
         }
 
