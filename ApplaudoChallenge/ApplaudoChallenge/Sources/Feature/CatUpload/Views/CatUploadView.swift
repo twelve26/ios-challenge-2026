@@ -9,6 +9,11 @@ import SwiftUI
 
 struct CatUploadView: View {
     @StateObject private var viewModel = CatUploadFormViewModel()
+    private let onCreationConfirmed: () -> Void
+
+    init(onCreationConfirmed: @escaping () -> Void = {}) {
+        self.onCreationConfirmed = onCreationConfirmed
+    }
 
     var body: some View {
         NavigationStack {
@@ -53,7 +58,9 @@ struct CatUploadView: View {
                 LocalizableKey.CatUpload.successTitle,
                 isPresented: $viewModel.isConfirmationPresented
             ) {
-                Button(LocalizableKey.CatUpload.done, role: .cancel) {}
+                Button(LocalizableKey.CatUpload.done, role: .cancel) {
+                    onCreationConfirmed()
+                }
             } message: {
                 Text(LocalizableKey.CatUpload.successMessage)
             }

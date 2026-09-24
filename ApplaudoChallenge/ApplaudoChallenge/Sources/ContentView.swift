@@ -21,7 +21,9 @@ public struct ContentView: View {
             .tag(AppTab.breeds)
 
             // MARK: - Tab 2: Add Cat
-            CatUploadView()
+            CatUploadView {
+                selectedTab = .myCats
+            }
             .tabItem {
                 Label(LocalizableKey.Tab.addCat, systemImage: "plus.circle")
             }
