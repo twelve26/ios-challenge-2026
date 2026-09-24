@@ -58,8 +58,43 @@ enum LocalizableKey {
         static let navigationTitle = value("cat_upload.navigation_title")
         static let title = value("cat_upload.title")
         static let basicInformation = value("cat_upload.basic_information")
+        static let basicInformationSubtitle = value("cat_upload.basic_information_subtitle")
         static let details = value("cat_upload.details")
+        static let detailsSubtitle = value("cat_upload.details_subtitle")
         static let review = value("cat_upload.review")
+        static let reviewSubtitle = value("cat_upload.review_subtitle")
+        static let catName = value("cat_upload.cat_name")
+        static let catNamePlaceholder = value("cat_upload.cat_name_placeholder")
+        static let breed = value("cat_upload.breed")
+        static let breedPlaceholder = value("cat_upload.breed_placeholder")
+        static let age = value("cat_upload.age")
+        static let agePlaceholder = value("cat_upload.age_placeholder")
+        static let shortDescription = value("cat_upload.short_description")
+        static let descriptionPlaceholder = value("cat_upload.description_placeholder")
+        static let ageMonths = value("cat_upload.age_months")
+        static let microchipID = value("cat_upload.microchip_id")
+        static let country = value("cat_upload.country")
+        static let bodyConditionScore = value("cat_upload.body_condition_score")
+        static let optionalPlaceholder = value("cat_upload.optional_placeholder")
+        static let bodyConditionPlaceholder = value("cat_upload.body_condition_placeholder")
+        static let next = value("cat_upload.next")
+        static let create = value("cat_upload.create")
+        static let done = value("cat_upload.done")
+        static let requiredFieldsTitle = value("cat_upload.required_fields_title")
+        static let requiredFieldsMessage = value("cat_upload.required_fields_message")
+        static let requiredField = value("cat_upload.required_field")
+        static let selectBreed = value("cat_upload.select_breed")
+        static let invalidAge = value("cat_upload.invalid_age")
+        static let invalidAgeMonths = value("cat_upload.invalid_age_months")
+        static let invalidBodyCondition = value("cat_upload.invalid_body_condition")
+        static let saveError = value("cat_upload.save_error")
+        static let successTitle = value("cat_upload.success_title")
+        static let successMessage = value("cat_upload.success_message")
+        static let stepTitles = [
+            value("cat_upload.step.basic"),
+            value("cat_upload.step.details"),
+            value("cat_upload.step.review"),
+        ]
     }
 
     enum Preview {

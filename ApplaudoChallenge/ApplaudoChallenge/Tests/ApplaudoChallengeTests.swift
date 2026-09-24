@@ -1,4 +1,5 @@
 import Testing
+import Combine
 import Foundation
 import NetworkLayer
 @testable import ApplaudoChallenge
@@ -103,4 +104,68 @@ struct ApplaudoChallengeTests {
         #expect(try service.fetchCats().isEmpty)
     }
 
+    @Test func formDoesNotAdvanceWithMissingRequiredFields() {
+        let viewModel = CatUploadFormViewModel(
+            storageService: LocalCatStorageSpy(),
+            breedService: BreedServiceStub()
+        )
+
+        viewModel.performPrimaryAction()
+
+        #expect(viewModel.currentStep == 0)
+        #expect(viewModel.didAttemptStepOne)
+    }
+
+    @Test func formAdvancesThroughOptionalDetailsAndSaves() {
+        let storage = LocalCatStorageSpy()
+        let viewModel = CatUploadFormViewModel(
+            storageService: storage,
+            breedService: BreedServiceStub()
+        )
+        viewModel.formData.basicInformation = CatBasicInformation(
+            name: "Milo",
+            breed: CatBreed(id: "beng", name: "Bengal"),
+            age: "2",
+            shortDescription: "Playful cat"
+        )
+
+        viewModel.performPrimaryAction()
+        #expect(viewModel.currentStep == 1)
+
+        viewModel.performPrimaryAction()
+        #expect(viewModel.currentStep == 2)
+
+        viewModel.performPrimaryAction()
+        #expect(storage.savedCats.count == 1)
+        #expect(storage.savedCats.first?.name == "Milo")
+        #expect(viewModel.currentStep == 0)
+        #expect(viewModel.isConfirmationPresented)
+    }
+
+}
+
+private final class LocalCatStorageSpy: LocalCatStorageServiceType {
+    private(set) var savedCats: [CatProfile] = []
+
+    func fetchCats() throws -> [CatProfile] {
+        savedCats
+    }
+
+    func save(_ cat: CatProfile) throws {
+        savedCats.append(cat)
+    }
+
+    func deleteCat(id: UUID) throws {
+        savedCats.removeAll { $0.id == id }
+    }
+}
+
+private struct BreedServiceStub: BreedServiceType {
+    func fetchBreeds(
+        pagination: Pagination
+    ) -> AnyPublisher<[CatBreed], NetworkError> {
+        Just([])
+            .setFailureType(to: NetworkError.self)
+            .eraseToAnyPublisher()
+    }
 }

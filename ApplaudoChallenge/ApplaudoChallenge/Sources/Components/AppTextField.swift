@@ -8,6 +8,7 @@ struct AppTextField: View {
     var errorMessage: String?
     var keyboardType: UIKeyboardType = .default
     var icon: String?
+    var allowsOnlyNumbers: Bool = false
 
     private var hasError: Bool { errorMessage != nil }
 
@@ -30,6 +31,16 @@ struct AppTextField: View {
                     .keyboardType(keyboardType)
                     .font(AppTheme.Fonts.body)
                     .foregroundColor(AppTheme.Colors.textPrimary)
+                    .onChange(of: text) { _, newValue in
+                        guard allowsOnlyNumbers else { return }
+
+                        let filteredValue = newValue.filter {
+                            "0123456789".contains($0)
+                        }
+                        if filteredValue != newValue {
+                            text = filteredValue
+                        }
+                    }
             }
             .padding(AppTheme.Spacing.md)
             .background(AppTheme.Colors.surface)
