@@ -30,7 +30,6 @@ struct CatBasicInformation: Equatable {
 
 /// Optional information collected during the second form phase.
 struct CatAdditionalInformation: Equatable {
-    var image: CatUploadImage?
     var ageMonths = ""
     var microchipID = ""
     var country = ""
@@ -106,32 +105,10 @@ struct CatFormData: Equatable {
             age: age,
             ageMonths: additionalInformation.parsedAgeMonths,
             shortDescription: basicInformation.trimmedDescription,
-            imageData: additionalInformation.image?.data,
             microchipID: additionalInformation.trimmedMicrochipID,
             country: additionalInformation.trimmedCountry,
             bodyConditionScore: additionalInformation.parsedBodyConditionScore
         )
     }
 
-    func makeUploadRequest() -> CatUploadRequest? {
-        guard
-            let breed = basicInformation.breed,
-            let age = basicInformation.parsedAge,
-            isValid
-        else {
-            return nil
-        }
-
-        return CatUploadRequest(
-            name: basicInformation.trimmedName,
-            breedID: breed.id,
-            ageYears: age,
-            ageMonths: additionalInformation.parsedAgeMonths,
-            description: basicInformation.trimmedDescription,
-            image: additionalInformation.image,
-            microchipID: additionalInformation.trimmedMicrochipID,
-            country: additionalInformation.trimmedCountry,
-            bodyConditionScore: additionalInformation.parsedBodyConditionScore
-        )
-    }
 }

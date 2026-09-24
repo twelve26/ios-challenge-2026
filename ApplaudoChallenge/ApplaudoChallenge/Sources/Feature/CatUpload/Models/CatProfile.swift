@@ -9,7 +9,6 @@ struct CatProfile: Identifiable, Codable, Equatable {
     let age: Int
     let ageMonths: Int
     let shortDescription: String
-    let imageData: Data?
     let microchipID: String?
     let country: String?
     let bodyConditionScore: Int?
@@ -21,7 +20,6 @@ struct CatProfile: Identifiable, Codable, Equatable {
         age: Int,
         ageMonths: Int = 0,
         shortDescription: String,
-        imageData: Data? = nil,
         microchipID: String? = nil,
         country: String? = nil,
         bodyConditionScore: Int? = nil
@@ -32,7 +30,6 @@ struct CatProfile: Identifiable, Codable, Equatable {
         self.age = age
         self.ageMonths = ageMonths
         self.shortDescription = shortDescription
-        self.imageData = imageData
         self.microchipID = microchipID
         self.country = country
         self.bodyConditionScore = bodyConditionScore

@@ -35,6 +35,23 @@ enum LocalizableKey {
     enum MyCats {
         static let navigationTitle = value("my_cats.navigation_title")
         static let placeholder = value("my_cats.placeholder")
+        static let emptyTitle = value("my_cats.empty_title")
+        static let addCat = value("my_cats.add_cat")
+        static let errorTitle = value("my_cats.error_title")
+        static let retry = value("my_cats.retry")
+    }
+
+    enum MyCatDetail {
+        static let information = value("my_cat.detail.information")
+        static let name = value("my_cat.detail.name")
+        static let breed = value("my_cat.detail.breed")
+        static let ageYears = value("my_cat.detail.age_years")
+        static let ageMonths = value("my_cat.detail.age_months")
+        static let description = value("my_cat.detail.description")
+        static let microchipID = value("my_cat.detail.microchip_id")
+        static let country = value("my_cat.detail.country")
+        static let bodyConditionScore = value("my_cat.detail.body_condition_score")
+        static let notAvailable = value("my_cat.detail.not_available")
     }
 
     enum CatUpload {

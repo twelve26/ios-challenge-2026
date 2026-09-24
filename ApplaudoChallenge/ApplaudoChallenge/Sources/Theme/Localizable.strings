@@ -29,6 +29,22 @@
 /* My cats */
 "my_cats.navigation_title" = "My Cats";
 "my_cats.placeholder" = "Your saved cats will appear here.";
+"my_cats.empty_title" = "No Cats Yet";
+"my_cats.add_cat" = "Add a Cat";
+"my_cats.error_title" = "Unable to Load Cats";
+"my_cats.retry" = "Try Again";
+
+/* My cat detail */
+"my_cat.detail.information" = "Cat Information";
+"my_cat.detail.name" = "Name";
+"my_cat.detail.breed" = "Breed";
+"my_cat.detail.age_years" = "Age (years)";
+"my_cat.detail.age_months" = "Additional months";
+"my_cat.detail.description" = "Description";
+"my_cat.detail.microchip_id" = "Microchip ID";
+"my_cat.detail.country" = "Country";
+"my_cat.detail.body_condition_score" = "Body condition score";
+"my_cat.detail.not_available" = "Not available";
 
 /* Add cat */
 "cat_upload.navigation_title" = "Add Cat";
