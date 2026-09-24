@@ -28,10 +28,7 @@ struct CatBreedDetailsComponentView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: AppTheme.Spacing.lg) {
-                if let imageURL = catBreedInfo.image?.url,
-                   URL(string: imageURL) != nil {
-                    CatBreedDetailsHeaderView(imageURL: imageURL)
-                }
+                CatBreedDetailsHeaderView(imageURL: catBreedInfo.image?.url)
 
                 VStack(alignment: .leading, spacing: AppTheme.Spacing.lg) {
                     SectionHeader(
@@ -52,7 +49,7 @@ struct CatBreedDetailsComponentView: View {
 }
 
 struct CatBreedDetailsHeaderView: View {
-    let imageURL: String
+    let imageURL: String?
     private let imageHeight: CGFloat = Constants.imageHeight
 
     var body: some View {

@@ -35,11 +35,15 @@ struct MyCatsView: View {
                     ScrollView {
                         LazyVStack(spacing: AppTheme.Spacing.md) {
                             ForEach(Array(viewModel.cats.enumerated()), id: \.element.id) { index, cat in
-                                NavigationLink(destination: MyCatDetailsView(cat: cat)) {
+                                NavigationLink {
+                                    MyCatDetailsView(cat: cat) {
+                                        viewModel.deleteCat(id: cat.id)
+                                    }
+                                } label: {
                                     AppCard(
                                         title: cat.name,
                                         subtitle: cat.breed.name,
-                                        imageSystemName: index.isMultiple(of: 2)
+                                        imageSystemName: index % 2 == 0
                                             ? "cat.fill"
                                             : "cat"
                                     )

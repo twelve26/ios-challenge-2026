@@ -6,7 +6,11 @@
 import SwiftUI
 
 struct MyCatDetailsView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var isDeleteConfirmationPresented = false
+
     let cat: CatProfile
+    var onDelete: () -> Void = {}
 
     var body: some View {
         ScrollView {
@@ -23,6 +27,29 @@ struct MyCatDetailsView: View {
         }
         .background(AppTheme.Colors.background)
         .navigationTitle(cat.name)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(role: .destructive) {
+                    isDeleteConfirmationPresented = true
+                } label: {
+                    Image(systemName: "trash")
+                }
+                .accessibilityLabel(LocalizableKey.MyCatDetail.delete)
+            }
+        }
+        .confirmationDialog(
+            LocalizableKey.MyCatDetail.deleteConfirmationTitle,
+            isPresented: $isDeleteConfirmationPresented,
+            titleVisibility: .visible
+        ) {
+            Button(LocalizableKey.MyCatDetail.delete, role: .destructive) {
+                onDelete()
+                dismiss()
+            }
+            Button(LocalizableKey.MyCatDetail.cancel, role: .cancel) {}
+        } message: {
+            Text(LocalizableKey.MyCatDetail.deleteConfirmationMessage)
+        }
     }
 }
 

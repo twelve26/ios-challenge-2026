@@ -64,6 +64,21 @@ struct ApplaudoChallengeTests {
         #expect(form.makeProfile() == nil)
     }
 
+    @Test func formRequiresNameWithAtLeastThreeCharacters() {
+        let form = CatFormData(
+            basicInformation: CatBasicInformation(
+                name: "Mi",
+                breed: CatBreed(id: "beng", name: "Bengal"),
+                age: "2",
+                shortDescription: "Playful cat"
+            )
+        )
+
+        #expect(!form.basicInformation.isNameValid)
+        #expect(!form.isPhaseOneValid)
+        #expect(form.makeProfile() == nil)
+    }
+
     @Test func secondPhaseRejectsInvalidOptionalNumbers() {
         let form = CatFormData(
             basicInformation: CatBasicInformation(
