@@ -4,8 +4,6 @@ import Moya
 public final class NetworkLayer {
     public let breedService: BreedServiceType
     public let breedDetailService: BreedDetailServiceType
-    public let petService: PetServiceType
-    public let catUploadService: CatUploadServiceType
 
     /// Creates a network layer configured for live API requests.
     public convenience init() {
@@ -20,7 +18,5 @@ public final class NetworkLayer {
     init(requester: NetworkingRequesterType) {
         breedService = BreedService(requester: requester)
         breedDetailService = BreedDetailService(requester: requester)
-        petService = PetService(requester: requester)
-        catUploadService = CatUploadService(requester: requester)
     }
 }

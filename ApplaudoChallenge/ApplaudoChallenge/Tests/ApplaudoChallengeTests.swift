@@ -5,13 +5,8 @@ import NetworkLayer
 
 struct ApplaudoChallengeTests {
 
-    @Test func validFormBuildsProfileAndUploadRequest() {
+    @Test func validFormBuildsLocalProfile() {
         let breed = CatBreed(id: "beng", name: "Bengal")
-        let image = CatUploadImage(
-            data: Data([0x01]),
-            fileName: "milo.jpg",
-            mimeType: "image/jpeg"
-        )
         let form = CatFormData(
             basicInformation: CatBasicInformation(
                 name: "  Milo  ",
@@ -20,7 +15,6 @@ struct ApplaudoChallengeTests {
                 shortDescription: "  Playful cat  "
             ),
             additionalInformation: CatAdditionalInformation(
-                image: image,
                 ageMonths: "4",
                 microchipID: "  chip-123  ",
                 country: "  SV  ",
@@ -29,26 +23,18 @@ struct ApplaudoChallengeTests {
         )
 
         let profile = form.makeProfile()
-        let request = form.makeUploadRequest()
-
         #expect(form.isValid)
         #expect(profile?.name == "Milo")
         #expect(profile?.breed == breed)
         #expect(profile?.age == 2)
         #expect(profile?.ageMonths == 4)
         #expect(profile?.shortDescription == "Playful cat")
-        #expect(profile?.imageData == image.data)
         #expect(profile?.microchipID == "chip-123")
         #expect(profile?.country == "SV")
         #expect(profile?.bodyConditionScore == 5)
-        #expect(request?.breedID == "beng")
-        #expect(request?.image == image)
-        #expect(request?.microchipID == "chip-123")
-        #expect(request?.country == "SV")
-        #expect(request?.bodyConditionScore == 5)
     }
 
-    @Test func formRequiresMinimumFieldsButNotImage() {
+    @Test func formRequiresOnlyMinimumFields() {
         let form = CatFormData(
             basicInformation: CatBasicInformation(
                 name: "Milo",
@@ -61,8 +47,6 @@ struct ApplaudoChallengeTests {
         #expect(form.isPhaseOneValid)
         #expect(form.isPhaseTwoValid)
         #expect(form.isValid)
-        #expect(form.makeProfile()?.imageData == nil)
-        #expect(form.makeUploadRequest()?.image == nil)
     }
 
     @Test func invalidFormDoesNotCreateFinalObjects() {
@@ -77,7 +61,6 @@ struct ApplaudoChallengeTests {
         #expect(!form.isPhaseOneValid)
         #expect(!form.isValid)
         #expect(form.makeProfile() == nil)
-        #expect(form.makeUploadRequest() == nil)
     }
 
     @Test func secondPhaseRejectsInvalidOptionalNumbers() {
@@ -96,7 +79,28 @@ struct ApplaudoChallengeTests {
 
         #expect(form.isPhaseOneValid)
         #expect(!form.isPhaseTwoValid)
-        #expect(form.makeUploadRequest() == nil)
+        #expect(form.makeProfile() == nil)
+    }
+
+    @Test func localStoragePersistsAndDeletesCats() throws {
+        let directoryURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let fileURL = directoryURL.appendingPathComponent("cats.json")
+        defer { try? FileManager.default.removeItem(at: directoryURL) }
+
+        let service = LocalCatStorageService(fileURL: fileURL)
+        let cat = CatProfile(
+            name: "Milo",
+            breed: CatBreed(id: "beng", name: "Bengal"),
+            age: 2,
+            shortDescription: "Playful cat"
+        )
+
+        try service.save(cat)
+        #expect(try service.fetchCats() == [cat])
+
+        try service.deleteCat(id: cat.id)
+        #expect(try service.fetchCats().isEmpty)
     }
 
 }

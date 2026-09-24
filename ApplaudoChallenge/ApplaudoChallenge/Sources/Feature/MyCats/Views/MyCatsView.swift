@@ -8,12 +8,54 @@
 import SwiftUI
 
 struct MyCatsView: View {
+    @StateObject private var viewModel = MyCatsViewModel()
+    var onAddCat: () -> Void = {}
+
     var body: some View {
-        NavigationView {
-            Text(LocalizableKey.MyCats.placeholder)
-                .font(AppTheme.Fonts.title)
-                .foregroundColor(AppTheme.Colors.textPrimary)
-                .navigationTitle(LocalizableKey.MyCats.navigationTitle)
+        NavigationStack {
+            Group {
+                if let errorMessage = viewModel.errorMessage,
+                   viewModel.cats.isEmpty {
+                    EmptyStateView(
+                        systemImage: "exclamationmark.triangle",
+                        title: LocalizableKey.MyCats.errorTitle,
+                        message: errorMessage,
+                        buttonTitle: LocalizableKey.MyCats.retry,
+                        action: viewModel.fetchCats
+                    )
+                } else if viewModel.cats.isEmpty {
+                    EmptyStateView(
+                        systemImage: "cat",
+                        title: LocalizableKey.MyCats.emptyTitle,
+                        message: LocalizableKey.MyCats.placeholder,
+                        buttonTitle: LocalizableKey.MyCats.addCat,
+                        action: onAddCat
+                    )
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: AppTheme.Spacing.md) {
+                            ForEach(Array(viewModel.cats.enumerated()), id: \.element.id) { index, cat in
+                                NavigationLink(destination: MyCatDetailsView(cat: cat)) {
+                                    AppCard(
+                                        title: cat.name,
+                                        subtitle: cat.breed.name,
+                                        imageSystemName: index.isMultiple(of: 2)
+                                            ? "cat.fill"
+                                            : "cat"
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .padding(AppTheme.Spacing.md)
+                    }
+                    .background(AppTheme.Colors.background)
+                }
+            }
+            .navigationTitle(LocalizableKey.MyCats.navigationTitle)
+            .task {
+                viewModel.fetchCats()
+            }
         }
     }
 }
