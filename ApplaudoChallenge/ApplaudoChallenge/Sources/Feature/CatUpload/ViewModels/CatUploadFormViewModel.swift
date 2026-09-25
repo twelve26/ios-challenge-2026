@@ -80,6 +80,22 @@ final class CatUploadFormViewModel: ObservableObject {
         formData.basicInformation.breed = breed
     }
 
+    func matchingBreeds(limit: Int = 5) -> [CatBreed] {
+        let search = breedName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !search.isEmpty,
+              formData.basicInformation.breed?.name != breedName,
+              limit > 0
+        else {
+            return []
+        }
+
+        return Array(
+            breeds
+                .filter { $0.name.localizedCaseInsensitiveContains(search) }
+                .prefix(limit)
+        )
+    }
+
     func performPrimaryAction() {
         switch currentStep {
         case 0:

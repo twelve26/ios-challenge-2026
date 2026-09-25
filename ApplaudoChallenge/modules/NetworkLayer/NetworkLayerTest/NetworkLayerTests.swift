@@ -152,6 +152,43 @@ final class NetworkLayerTests: XCTestCase {
 
         wait(for: [expectation], timeout: 1)
     }
+
+    func testServicePreservesConnectivityError() {
+        let requester = RequesterSpy(
+            result: .failure(.unknown(underlying: NetworkLayerTestError.offline))
+        )
+        let service = NetworkLayer(requester: requester).breedService
+        let expectation = expectation(description: "Receives connectivity error")
+
+        service.fetchBreeds(pagination: .init())
+            .sink(
+                receiveCompletion: { completion in
+                    guard case .failure(.unknown(let underlyingError)) = completion else {
+                        return XCTFail("Expected an unknown network error")
+                    }
+
+                    XCTAssertEqual(
+                        underlyingError.localizedDescription,
+                        NetworkLayerTestError.offline.localizedDescription
+                    )
+                    expectation.fulfill()
+                },
+                receiveValue: { _ in
+                    XCTFail("Expected the request to fail")
+                }
+            )
+            .store(in: &cancellables)
+
+        wait(for: [expectation], timeout: 1)
+    }
+}
+
+private enum NetworkLayerTestError: LocalizedError {
+    case offline
+
+    var errorDescription: String? {
+        "Expected offline failure."
+    }
 }
 
 private final class RequesterSpy: NetworkingRequesterType {
