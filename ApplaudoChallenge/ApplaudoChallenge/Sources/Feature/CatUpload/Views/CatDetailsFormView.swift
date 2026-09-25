@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+private enum CountryCatalog {
+    static let names: [String] = {
+        let localizedNames = Locale.Region.isoRegions.compactMap { region in
+            Locale.autoupdatingCurrent.localizedString(forRegionCode: region.identifier)
+        }
+
+        return Array(Set(localizedNames)).sorted {
+            $0.localizedCaseInsensitiveCompare($1) == .orderedAscending
+        }
+    }()
+}
+
 struct CatDetailsFormView: View {
     @ObservedObject var viewModel: CatUploadFormViewModel
 
@@ -35,12 +47,16 @@ struct CatDetailsFormView: View {
                 icon: "number"
             )
 
-            AppTextField(
-                label: LocalizableKey.CatUpload.country,
-                placeholder: LocalizableKey.CatUpload.optionalPlaceholder,
-                text: detailsBinding(for: \.country),
-                icon: "globe.americas"
-            )
+            VStack(alignment: .leading, spacing: AppTheme.Spacing.sm) {
+                AppTextField(
+                    label: LocalizableKey.CatUpload.country,
+                    placeholder: LocalizableKey.CatUpload.optionalPlaceholder,
+                    text: detailsBinding(for: \.country),
+                    icon: "globe.americas"
+                )
+
+                countrySuggestions
+            }
 
             AppTextField(
                 label: LocalizableKey.CatUpload.bodyConditionScore,
@@ -52,6 +68,60 @@ struct CatDetailsFormView: View {
                 allowsOnlyNumbers: true
             )
         }
+    }
+
+    @ViewBuilder
+    private var countrySuggestions: some View {
+        if !matchingCountries.isEmpty {
+            VStack(spacing: AppTheme.Spacing.xs) {
+                ForEach(matchingCountries, id: \.self) { country in
+                    Button {
+                        viewModel.formData.additionalInformation.country = country
+                    } label: {
+                        HStack {
+                            Image(systemName: "globe.americas")
+                            Text(country)
+                            Spacer()
+                        }
+                        .font(AppTheme.Fonts.body)
+                        .foregroundColor(AppTheme.Colors.textPrimary)
+                        .padding(AppTheme.Spacing.sm)
+                        .background(AppTheme.Colors.surface)
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: AppTheme.CornerRadius.small)
+                        )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+    }
+
+    private var matchingCountries: [String] {
+        let search = viewModel.formData.additionalInformation.country
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !search.isEmpty,
+              !CountryCatalog.names.contains(where: {
+                  $0.compare(
+                      search,
+                      options: [.caseInsensitive, .diacriticInsensitive]
+                  ) == .orderedSame
+              })
+        else {
+            return []
+        }
+
+        return Array(
+            CountryCatalog.names
+                .filter {
+                    $0.range(
+                        of: search,
+                        options: [.caseInsensitive, .diacriticInsensitive]
+                    ) != nil
+                }
+                .prefix(5)
+        )
     }
 
     private var ageMonthsError: String? {
