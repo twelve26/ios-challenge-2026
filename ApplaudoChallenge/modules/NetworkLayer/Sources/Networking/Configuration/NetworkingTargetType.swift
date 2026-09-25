@@ -32,6 +32,9 @@ extension NetworkingTargetType {
 
     // MARK: - Request Headers
     // Common headers sent with every request. Add or override additional headers in your target as required.
+    // to used the CAT API key override the return to used your personal API key
+    // or set the API KEY in the Bundle CAT_API_KEY infoPlist
+    // this is because GIT interrupt any push to a remote repository with a exposed key
     var requestHeaders: [String: String]? {
         let environmentAPIKey = ProcessInfo.processInfo.environment["CAT_API_KEY"]
         let configurationAPIKey = Bundle.main.object(forInfoDictionaryKey: "CAT_API_KEY") as? String
