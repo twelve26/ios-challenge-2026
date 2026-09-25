@@ -5,7 +5,6 @@
 //  Created by Jhonger josias Delgado Acosta on 24/09/26.
 //
 
-import NetworkLayer
 import SwiftUI
 
 struct CatSimpleFormView: View {
@@ -76,6 +75,8 @@ struct CatSimpleFormView: View {
 
     @ViewBuilder
     private var breedSuggestions: some View {
+        let matchingBreeds = viewModel.matchingBreeds()
+
         if !matchingBreeds.isEmpty {
             VStack(spacing: AppTheme.Spacing.xs) {
                 ForEach(matchingBreeds, id: \.id) { breed in
@@ -99,21 +100,6 @@ struct CatSimpleFormView: View {
                 }
             }
         }
-    }
-
-    private var matchingBreeds: [CatBreed] {
-        let search = viewModel.breedName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !search.isEmpty,
-              viewModel.formData.basicInformation.breed?.name != viewModel.breedName
-        else {
-            return []
-        }
-
-        return Array(
-            viewModel.breeds
-                .filter { $0.name.localizedCaseInsensitiveContains(search) }
-                .prefix(5)
-        )
     }
 
     private var breedError: String? {

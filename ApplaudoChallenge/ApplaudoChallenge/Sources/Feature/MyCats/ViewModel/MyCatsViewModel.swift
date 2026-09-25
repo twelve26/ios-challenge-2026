@@ -28,7 +28,9 @@ final class MyCatsViewModel: ObservableObject {
     }
 
     func deleteCats(at offsets: IndexSet) {
-        let catsToDelete = offsets.map { cats[$0] }
+        let catsToDelete = offsets
+            .filter { cats.indices.contains($0) }
+            .map { cats[$0] }
         let deletedIDs = Set(catsToDelete.map(\.id))
 
         do {
@@ -38,8 +40,9 @@ final class MyCatsViewModel: ObservableObject {
             cats.removeAll { deletedIDs.contains($0.id) }
             errorMessage = nil
         } catch {
-            errorMessage = error.localizedDescription
+            let deletionErrorMessage = error.localizedDescription
             fetchCats()
+            errorMessage = deletionErrorMessage
         }
     }
 
@@ -49,8 +52,9 @@ final class MyCatsViewModel: ObservableObject {
             cats.removeAll { $0.id == id }
             errorMessage = nil
         } catch {
-            errorMessage = error.localizedDescription
+            let deletionErrorMessage = error.localizedDescription
             fetchCats()
+            errorMessage = deletionErrorMessage
         }
     }
 }

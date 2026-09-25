@@ -98,6 +98,28 @@ struct ApplaudoChallengeTests {
         #expect(form.makeProfile() == nil)
     }
 
+    @Test func numericValidationAcceptsBoundariesAndRejectsOverflow() {
+        let lowerBoundary = CatAdditionalInformation(
+            ageMonths: "0",
+            bodyConditionScore: "1"
+        )
+        let upperBoundary = CatAdditionalInformation(
+            ageMonths: "11",
+            bodyConditionScore: "9"
+        )
+        let overflowingAge = CatBasicInformation(
+            name: "Milo",
+            breed: CatBreed(id: "beng", name: "Bengal"),
+            age: String(repeating: "9", count: 100),
+            shortDescription: "Playful cat"
+        )
+
+        #expect(lowerBoundary.isValid)
+        #expect(upperBoundary.isValid)
+        #expect(!overflowingAge.isAgeValid)
+        #expect(!overflowingAge.isValid)
+    }
+
     @Test func localStoragePersistsAndDeletesCats() throws {
         let directoryURL = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
@@ -117,6 +139,24 @@ struct ApplaudoChallengeTests {
 
         try service.deleteCat(id: cat.id)
         #expect(try service.fetchCats().isEmpty)
+    }
+
+    @Test func localStorageRejectsCorruptedJSONWithoutCrashing() throws {
+        let directoryURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let fileURL = directoryURL.appendingPathComponent("cats.json")
+        defer { try? FileManager.default.removeItem(at: directoryURL) }
+
+        try FileManager.default.createDirectory(
+            at: directoryURL,
+            withIntermediateDirectories: true
+        )
+        try Data("not-json".utf8).write(to: fileURL)
+
+        let service = LocalCatStorageService(fileURL: fileURL)
+        #expect(throws: DecodingError.self) {
+            try service.fetchCats()
+        }
     }
 
     @Test func formDoesNotAdvanceWithMissingRequiredFields() {
@@ -157,16 +197,65 @@ struct ApplaudoChallengeTests {
         #expect(viewModel.isConfirmationPresented)
     }
 
+    @Test func formSaveFailurePreservesDraftAndShowsError() {
+        let storage = LocalCatStorageSpy(saveError: StorageTestError.expected)
+        let viewModel = CatUploadFormViewModel(
+            storageService: storage,
+            breedService: BreedServiceStub()
+        )
+        viewModel.formData.basicInformation = CatBasicInformation(
+            name: "Milo",
+            breed: CatBreed(id: "beng", name: "Bengal"),
+            age: "2",
+            shortDescription: "Playful cat"
+        )
+
+        viewModel.performPrimaryAction()
+        viewModel.performPrimaryAction()
+        viewModel.performPrimaryAction()
+
+        #expect(storage.savedCats.isEmpty)
+        #expect(viewModel.currentStep == 2)
+        #expect(viewModel.formData.basicInformation.name == "Milo")
+        #expect(viewModel.errorMessage == StorageTestError.expected.localizedDescription)
+        #expect(!viewModel.isConfirmationPresented)
+    }
+
+    @Test func countrySuggestionsAreBoundedAndHideExactSelection() throws {
+        let country = try #require(CountryCatalog.names.first)
+
+        #expect(CountryCatalog.names.count > 200)
+        #expect(CountryCatalog.suggestions(matching: "a", limit: 3).count <= 3)
+        #expect(CountryCatalog.suggestions(matching: country).isEmpty)
+        #expect(CountryCatalog.suggestions(matching: " ").isEmpty)
+    }
+
+}
+
+private enum StorageTestError: LocalizedError {
+    case expected
+
+    var errorDescription: String? {
+        "Expected storage failure."
+    }
 }
 
 private final class LocalCatStorageSpy: LocalCatStorageServiceType {
     private(set) var savedCats: [CatProfile] = []
+    private let saveError: Error?
+
+    init(saveError: Error? = nil) {
+        self.saveError = saveError
+    }
 
     func fetchCats() throws -> [CatProfile] {
         savedCats
     }
 
     func save(_ cat: CatProfile) throws {
+        if let saveError {
+            throw saveError
+        }
         savedCats.append(cat)
     }
 

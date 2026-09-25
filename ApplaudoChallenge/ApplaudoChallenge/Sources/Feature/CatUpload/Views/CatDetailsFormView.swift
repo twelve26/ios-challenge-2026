@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-private enum CountryCatalog {
+enum CountryCatalog {
     static let names: [String] = {
         let localizedNames = Locale.Region.isoRegions.compactMap { region in
             Locale.autoupdatingCurrent.localizedString(forRegionCode: region.identifier)
@@ -17,6 +17,32 @@ private enum CountryCatalog {
             $0.localizedCaseInsensitiveCompare($1) == .orderedAscending
         }
     }()
+
+    static func suggestions(matching value: String, limit: Int = 5) -> [String] {
+        let search = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !search.isEmpty,
+              limit > 0,
+              !names.contains(where: {
+                  $0.compare(
+                      search,
+                      options: [.caseInsensitive, .diacriticInsensitive]
+                  ) == .orderedSame
+              })
+        else {
+            return []
+        }
+
+        return Array(
+            names
+                .filter {
+                    $0.range(
+                        of: search,
+                        options: [.caseInsensitive, .diacriticInsensitive]
+                    ) != nil
+                }
+                .prefix(limit)
+        )
+    }
 }
 
 struct CatDetailsFormView: View {
@@ -98,29 +124,8 @@ struct CatDetailsFormView: View {
     }
 
     private var matchingCountries: [String] {
-        let search = viewModel.formData.additionalInformation.country
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-
-        guard !search.isEmpty,
-              !CountryCatalog.names.contains(where: {
-                  $0.compare(
-                      search,
-                      options: [.caseInsensitive, .diacriticInsensitive]
-                  ) == .orderedSame
-              })
-        else {
-            return []
-        }
-
-        return Array(
-            CountryCatalog.names
-                .filter {
-                    $0.range(
-                        of: search,
-                        options: [.caseInsensitive, .diacriticInsensitive]
-                    ) != nil
-                }
-                .prefix(5)
+        CountryCatalog.suggestions(
+            matching: viewModel.formData.additionalInformation.country
         )
     }
 
